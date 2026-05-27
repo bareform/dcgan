@@ -1,0 +1,40 @@
+[dataset]
+dataset = "afhq-wild"
+
+[model]
+generator_in_channels = [512, 256, 128, 128]
+discriminator_in_channels = [128, 128, 128, 256]
+
+[training]
+batch_size = 64
+num_workers = 4
+pin_memory = true
+num_epochs = 1500
+
+image_height = 64
+image_width = 64
+
+generator_lr = 0.0001
+generator_adam_beta1 = 0.0
+generator_adam_beta2 = 0.9
+
+discriminator_lr = 0.00008
+discriminator_adam_beta1 = 0.0
+discriminator_adam_beta2 = 0.9
+
+latent_dim = 128
+
+use_spectral_norm = true
+use_hinge_loss = true
+
+random_seed = 0
+
+[evaluation]
+ckpt_dir = "./checkpoints"
+save_ckpt_interval = 1500
+
+output_dir = "./output"
+
+save_output_interval = 75
+nrow = 9
+compute_fid_interval = 75

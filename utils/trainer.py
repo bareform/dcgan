@@ -294,6 +294,7 @@ def main():
 
                 # === Train Discriminator ===
                 D_optimizer.zero_grad()
+
                 noise = torch.randn(batch_size, args.latent_dim, 1, 1, device=device)
                 fake_images = G(noise)
                 real_out = D(images)
