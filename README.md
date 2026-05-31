@@ -52,7 +52,7 @@ After training for 1500 epochs, you can find the following gif at `./assets/afhq
 
 Using the configuration provided at `./configs/afhq_wild.toml`, we achieve a mean FID score of 29.71 with a standard deviation of 0.157 over 10 runs.
 
-You can download the pre-trained model [here](https://huggingface.co/luethan2025/dcgan) and use the provided Jupyter Notebook `inference.ipynb` to generate some samples.
+You can download the pre-trained models [here](https://huggingface.co/luethan2025/dcgan) and use the provided Jupyter Notebook `inference.ipynb` to generate some samples.
 
 ## Method
 
