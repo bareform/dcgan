@@ -320,11 +320,12 @@ def main():
 
                 noise = torch.randn(batch_size, args.latent_dim, 1, 1, device=device)
                 fake_images = G(noise)
+                fake_out = D(fake_images)
 
                 if args.use_hinge_loss:
-                    G_loss = -torch.mean(D(fake_images))
+                    G_loss = -torch.mean(fake_out)
                 else:
-                    G_loss = criterion(D(fake_images).view(-1), real_labels)
+                    G_loss = criterion(fake_out.view(-1), real_labels)
 
                 G_loss.backward()
                 G_optimizer.step()
