@@ -5,14 +5,14 @@ from models import (
 
 import os
 
-from cleanfid import fid
-from datasets import load_dataset
-from PIL import Image
 import torch
 import torch.optim as optim
 import torch.utils.data as data
 import torchvision
 import torchvision.transforms as transforms
+from cleanfid import fid
+from datasets import load_dataset
+from PIL import Image
 from tqdm import tqdm
 
 import torchutils
