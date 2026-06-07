@@ -146,7 +146,7 @@ def get_argparser():
         help="Directory to save checkpoints (default: ./checkpoints).",
     )
     parser.add_argument(
-        "--save_ckpt_interval",
+        "--save_checkpoint_interval",
         type=int,
         default=200,
         help="Interval (in epochs) at which to save model checkpoints (default: 200).",
@@ -357,7 +357,7 @@ def main():
                 )
             G.train()
 
-        if (epoch + 1) % args.save_ckpt_interval == 0:
+        if (epoch + 1) % args.save_checkpoint_interval == 0:
             print("Saving model checkpoints")
             checkpoint = {
                 "dataset": args.dataset,
