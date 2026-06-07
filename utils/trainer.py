@@ -140,7 +140,7 @@ def get_argparser():
         help="Whether to use hinge loss (default: False).",
     )
     parser.add_argument(
-        "--ckpt_dir",
+        "--checkpoint_dir",
         type=str,
         default=os.path.join(".", "checkpoints"),
         help="Directory to save checkpoints (default: ./checkpoints).",
@@ -266,8 +266,8 @@ def main():
     D_optimizer = optim.Adam(D.parameters(), lr=args.discriminator_lr, betas=(args.discriminator_adam_beta1, args.discriminator_adam_beta2))
     criterion = torch.nn.BCEWithLogitsLoss()
 
-    if not (os.path.exists(args.ckpt_dir) and os.path.isdir(args.ckpt_dir)):
-        os.makedirs(args.ckpt_dir, exist_ok=True)
+    if not (os.path.exists(args.checkpoint_dir) and os.path.isdir(args.checkpoint_dir)):
+        os.makedirs(args.checkpoint_dir, exist_ok=True)
 
     output_dir = os.path.join(args.output_dir, args.dataset, "epoch")
     if not (os.path.exists(output_dir) and os.path.isdir(output_dir)):
@@ -375,7 +375,7 @@ def main():
                 "image_height": args.image_height,
                 "image_width": args.image_width
             }
-            torch.save(checkpoint, os.path.join(args.ckpt_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
+            torch.save(checkpoint, os.path.join(args.checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
             generator = {
                 "dataset": args.dataset,
                 "G": G.state_dict(),
@@ -383,7 +383,7 @@ def main():
                 "latent_dim": args.latent_dim,
                 "img_size": img_size,
             }
-            torch.save(generator, os.path.join(args.ckpt_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
+            torch.save(generator, os.path.join(args.checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
 
         if (epoch + 1) % args.compute_fid_interval == 0:
             fid_score = fid.compute_fid(
@@ -439,7 +439,7 @@ def main():
         "image_height": args.image_height,
         "image_width": args.image_width
     }
-    torch.save(checkpoint, os.path.join(args.ckpt_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
+    torch.save(checkpoint, os.path.join(args.checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
     generator = {
         "dataset": args.dataset,
         "G": G.state_dict(),
@@ -447,7 +447,7 @@ def main():
         "latent_dim": args.latent_dim,
         "img_size": img_size,
     }
-    torch.save(generator, os.path.join(args.ckpt_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
+    torch.save(generator, os.path.join(args.checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
 
 if __name__ == "__main__":
     main()
