@@ -347,7 +347,7 @@ def main():
         average_real_loss = running_real_loss / len(dataloader)
         average_fake_loss = running_fake_loss / len(dataloader)
         print(f"Epoch: {epoch + 1}/{args.num_epochs}")
-        print(f"G Loss: {average_G_loss:.5f}, D Loss: {average_D_loss:.5f}, D(real): {average_real_loss:.5f}, D(fake): {average_fake_loss:.5f}")
+        print(f"G Loss: {average_G_loss:.5f}, D Loss: {average_D_loss:.5f}, D(real) Loss: {average_real_loss:.5f}, D(fake) Loss: {average_fake_loss:.5f}")
 
         if (epoch + 1) % args.save_output_interval == 0:
             print("Saving fake images")
