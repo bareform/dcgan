@@ -13,16 +13,16 @@ def weights_init(m: nn.Module):
             nn.init.constant_(m.weight.data, 1.0)
             nn.init.constant_(m.bias.data, 0.0)
 
+@torch.no_grad()
 def gen(generator: Generator, z: torch.tensor, device: torch.device) -> torch.tensor:
     generator.eval()
-    with torch.no_grad():
-        z = z.to(device)
-        if z.dim() == 2:
-            z = z.unsqueeze(-1).unsqueeze(-1)
-        if z.size(1) != generator.latent_dim:
-            z = z[:, :generator.latent_dim]
-        images = generator(z)
-        images = images / 2 + 0.5
-        images = images * 255
+    z = z.to(device)
+    if z.dim() == 2:
+        z = z.unsqueeze(-1).unsqueeze(-1)
+    if z.size(1) != generator.latent_dim:
+        z = z[:, :generator.latent_dim]
+    images = generator(z)
+    images = images / 2 + 0.5
+    images = images * 255
     generator.train()
     return images
