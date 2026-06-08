@@ -273,6 +273,10 @@ def main():
     if not (os.path.exists(output_dir) and os.path.isdir(output_dir)):
         os.makedirs(output_dir, exist_ok=True)
 
+    checkpoint_dir = os.path.join(args.checkpoint_dir, args.dataset)
+    if not (os.path.exists(checkpoint_dir) and os.path.isdir(checkpoint_dir)):
+        os.makedirs(checkpoint_dir, exist_ok=True)
+
     G.train()
     D.train()
     test_noise = torch.randn(args.nrow ** 2, args.latent_dim, 1, 1, device=device)
@@ -375,7 +379,7 @@ def main():
                 "image_height": args.image_height,
                 "image_width": args.image_width
             }
-            torch.save(checkpoint, os.path.join(args.checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
+            torch.save(checkpoint, os.path.join(checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
             generator = {
                 "dataset": args.dataset,
                 "G": G.state_dict(),
@@ -383,7 +387,7 @@ def main():
                 "latent_dim": args.latent_dim,
                 "img_size": img_size,
             }
-            torch.save(generator, os.path.join(args.checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
+            torch.save(generator, os.path.join(checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
 
         if (epoch + 1) % args.compute_fid_interval == 0:
             fid_score = fid.compute_fid(
@@ -439,7 +443,7 @@ def main():
         "image_height": args.image_height,
         "image_width": args.image_width
     }
-    torch.save(checkpoint, os.path.join(args.checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
+    torch.save(checkpoint, os.path.join(checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
     generator = {
         "dataset": args.dataset,
         "G": G.state_dict(),
@@ -447,7 +451,7 @@ def main():
         "latent_dim": args.latent_dim,
         "img_size": img_size,
     }
-    torch.save(generator, os.path.join(args.checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
+    torch.save(generator, os.path.join(checkpoint_dir, f"{args.dataset}_{epoch + 1:0{pad_length}d}.pth"))
 
 if __name__ == "__main__":
     main()
