@@ -337,10 +337,10 @@ def main():
                 running_G_loss += G_loss.item()
 
                 pbar.set_postfix({
-                    "G_loss": f"{G_loss.item():.2f}",
-                    "D_loss": f"{D_loss.item():.2f}",
-                    "D(real)": f"{real_loss.item():.2f}",
-                    "D(fake)": f"{fake_loss.item():.2f}"
+                    "G Loss": f"{G_loss.item():.2f}",
+                    "D Loss": f"{D_loss.item():.2f}",
+                    "D(real) Loss": f"{real_loss.item():.2f}",
+                    "D(fake) Loss": f"{fake_loss.item():.2f}"
                 })
         average_G_loss = running_G_loss / len(dataloader)
         average_D_loss = running_D_loss / len(dataloader)
