@@ -50,6 +50,6 @@ class Generator(nn.Module):
         ])
         self.generator_layers = nn.Sequential(*layers)
 
-    def forward(self, input: torch.tensor) -> torch.tensor:
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
         out = self.generator_layers(input)
         return out

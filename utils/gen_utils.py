@@ -14,7 +14,7 @@ def weights_init(m: nn.Module):
             nn.init.constant_(m.bias.data, 0.0)
 
 @torch.no_grad()
-def gen(generator: Generator, z: torch.tensor, device: torch.device) -> torch.tensor:
+def gen(generator: Generator, z: torch.Tensor, device: torch.device) -> torch.Tensor:
     generator.eval()
     z = z.to(device)
     if z.dim() == 2:

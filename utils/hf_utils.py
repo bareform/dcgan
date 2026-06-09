@@ -15,7 +15,7 @@ class ImageDataset(data.Dataset):
     def __len__(self) -> int:
         return len(self.dataset)
 
-    def __getitem__(self, idx: int) -> torch.tensor:
+    def __getitem__(self, idx: int) -> torch.Tensor:
         item = self.dataset[idx]
         image = item["image"]
         if self.transform is not None:

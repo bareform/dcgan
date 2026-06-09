@@ -74,6 +74,6 @@ class Discriminator(nn.Module):
         )
         self.discriminator_layers = nn.Sequential(*layers)
 
-    def forward(self, input: torch.tensor) -> torch.tensor:
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
         out = self.discriminator_layers(input)
         return out
