@@ -33,7 +33,7 @@ class Discriminator(nn.Module):
             nn.LeakyReLU(0.2, inplace=True)
         ])
         for i in range(len(self.in_channels) - 1):
-            layers.extend([
+            layers.append(
                 spectral_norm(nn.Conv2d(
                     in_channels=self.in_channels[i],
                     out_channels=self.in_channels[i + 1],
@@ -49,9 +49,11 @@ class Discriminator(nn.Module):
                     stride=2,
                     padding=1,
                     bias=False
-                ),
-                nn.LeakyReLU(0.2, inplace=True)
-            ])
+                )
+            )
+            if not use_spectral_norm:
+                layers.append(nn.BatchNorm2d(self.in_channels[i + 1]))
+            layers.append(nn.LeakyReLU(0.2, inplace=True))
         layers.append(
             spectral_norm(nn.Conv2d(
                 in_channels=self.in_channels[-1],
