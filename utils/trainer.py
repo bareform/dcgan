@@ -304,12 +304,15 @@ def main():
                 real_out = D(images)
                 fake_out = D(fake_images.detach())
 
+                real_logits = real_out.view(-1)
+                fake_logits = fake_out.view(-1)
+
                 if args.use_hinge_loss:
                     real_loss = torch.mean(torch.clamp(1.0 - real_out, min=0.0))
                     fake_loss = torch.mean(torch.clamp(1.0 + fake_out, min=0.0))
                 else:
-                    real_loss = criterion(real_out.view(-1), real_labels)
-                    fake_loss = criterion(fake_out.view(-1), fake_labels)
+                    real_loss = criterion(real_logits, real_labels)
+                    fake_loss = criterion(fake_logits, fake_labels)
 
                 D_loss = real_loss + fake_loss
                 D_loss.backward()
@@ -326,10 +329,12 @@ def main():
                 fake_images = G(noise)
                 fake_out = D(fake_images)
 
+                fake_logits = fake_out.view(-1)
+
                 if args.use_hinge_loss:
                     G_loss = -torch.mean(fake_out)
                 else:
-                    G_loss = criterion(fake_out.view(-1), real_labels)
+                    G_loss = criterion(fake_logits, real_labels)
 
                 G_loss.backward()
                 G_optimizer.step()
