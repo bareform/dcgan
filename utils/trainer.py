@@ -210,7 +210,10 @@ def main():
             batch_size=args.batch_size,
             shuffle=True,
             num_workers=args.num_workers,
-            pin_memory=args.pin_memory
+            pin_memory=args.pin_memory,
+            persistent_workers=args.num_workers > 0,
+            prefetch_factor=4 if args.num_workers > 0 else None,
+            drop_last=True,
         )
         dataset = "afhq-cat-64x64"
         img_size = (3, args.image_height, args.image_width)
@@ -231,7 +234,10 @@ def main():
             batch_size=args.batch_size,
             shuffle=True,
             num_workers=args.num_workers,
-            pin_memory=args.pin_memory
+            pin_memory=args.pin_memory,
+            persistent_workers=args.num_workers > 0,
+            prefetch_factor=4 if args.num_workers > 0 else None,
+            drop_last=True,
         )
         dataset = "afhq-wild-64x64"
         img_size = (3, args.image_height, args.image_width)
