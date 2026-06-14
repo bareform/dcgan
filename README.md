@@ -1,6 +1,6 @@
 # Deep Convolutional Generative Adversarial Networks
 
-DCGAN (Deep Convolutional Generative Adversarial Networks) is a method that uses convolutional and convolutional-transpose layers in the discriminator and generator, respectively. At the time, it demonstrated that GANs could be trained effectively and were practical for high-quality image generation.
+DCGAN (Deep Convolutional Generative Adversarial Networks) is a method that uses convolutional and transposed convolutional layers in the discriminator and generator networks, respectively. At the time, it demonstrated that GANs could be trained effectively and were practical for high-quality image generation.
 
 ## Installation
 
@@ -34,7 +34,7 @@ To train a low-res `AFHQ Cat` DCGAN:
 python3 -m utils.trainer --config="./configs/afhq_cat.toml"
 ```
 
-After training for 500 epochs, you can find the following gif at `./assets/afhq-cat/afhq-cat_500.gif`.
+After training for 500 epochs, you can find results similiar to gif at `./assets/afhq-cat/afhq-cat_500.gif`.
 
 <img src="assets/afhq-cat/afhq-cat_500.gif" width="300" alt="afhq-cat">
 
@@ -46,7 +46,7 @@ To train a low-res `AFHQ Wild` DCGAN:
 python3 -m utils.trainer --config="./configs/afhq_wild.toml"
 ```
 
-After training for 1500 epochs, you can find the following gif at `./assets/afhq-wild/afhq-wild_1500.gif`.
+After training for 1500 epochs, you can find results similiar to gif at `./assets/afhq-wild/afhq-wild_1500.gif`.
 
 <img src="assets/afhq-wild/afhq-wild_1500.gif" width="300" alt="afhq-wild">
 
