@@ -53,3 +53,16 @@ class Generator(nn.Module):
     def forward(self, input: torch.Tensor) -> torch.Tensor:
         out = self.generator_layers(input)
         return out
+
+    @torch.no_grad()
+    def generate_samples(self, num_samples: int) -> torch.Tensor:
+        device = next(self.parameters()).device
+        z = torch.randn(
+            num_samples, self.latent_dim, 1, 1,
+            device=device,
+        )
+        self.generator_layers.eval()
+        images = self.generator_layers(z)
+        images = images / 2 + 0.5
+        self.generator_layers.train()
+        return images
