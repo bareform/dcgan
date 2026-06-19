@@ -287,9 +287,18 @@ def main():
     D.train()
     test_noise = torch.randn(args.nrow ** 2, args.latent_dim, 1, 1, device=device)
 
-    real_label_value = 1.0
-    fake_label_value = 0.0
     for epoch in range(args.num_epochs):
+        running_G_loss = 0.0
+        running_D_loss = 0.0
+        running_real_loss = 0.0
+        running_fake_loss = 0.0
+
+        running_real_score = 0.0
+        running_fake_score = 0.0
+
+        if args.use_hinge_loss:
+            running_real_margin = 0.0
+            running_fake_margin = 0.0
         with tqdm(dataloader, desc=f"Training", unit="batch") as pbar:
             running_G_loss = 0.0
             running_D_loss = 0.0
@@ -298,9 +307,6 @@ def main():
             for idx, images in enumerate(pbar):
                 images = images.to(device)
                 batch_size = images.size(0)
-
-                real_labels = torch.full((batch_size,), real_label_value, device=device)
-                fake_labels = torch.full((batch_size,), fake_label_value, device=device)
 
                 # === Train Discriminator ===
                 D_optimizer.zero_grad()
@@ -313,12 +319,26 @@ def main():
                 real_logits = real_out.view(-1)
                 fake_logits = fake_out.view(-1)
 
+                real_labels = torch.ones_like(real_logits)
+                fake_labels = torch.zeros_like(fake_logits)
+
                 if args.use_hinge_loss:
                     real_loss = torch.mean(torch.clamp(1.0 - real_out, min=0.0))
                     fake_loss = torch.mean(torch.clamp(1.0 + fake_out, min=0.0))
                 else:
                     real_loss = criterion(real_logits, real_labels)
                     fake_loss = criterion(fake_logits, fake_labels)
+                
+                with torch.no_grad():
+                    real_score = torch.sigmoid(real_logits).mean().item()
+                    fake_score = torch.sigmoid(fake_logits).mean().item()
+
+                running_real_score += real_score
+                running_fake_score += fake_score
+
+                if args.use_hinge_loss:
+                    running_real_margin += real_logits.mean().item()
+                    running_fake_margin += fake_logits.mean().item()
 
                 D_loss = real_loss + fake_loss
                 D_loss.backward()
@@ -336,6 +356,7 @@ def main():
                 fake_out = D(fake_images)
 
                 fake_logits = fake_out.view(-1)
+                real_labels = torch.ones_like(fake_logits)
 
                 if args.use_hinge_loss:
                     G_loss = -torch.mean(fake_out)
@@ -357,15 +378,29 @@ def main():
         average_D_loss = running_D_loss / len(dataloader)
         average_real_loss = running_real_loss / len(dataloader)
         average_fake_loss = running_fake_loss / len(dataloader)
+        average_real_score = running_real_score / len(dataloader)
+        average_fake_score = running_fake_score / len(dataloader)
+        
         print(f"Epoch: {epoch + 1}/{args.num_epochs}")
         print(f"G Loss: {average_G_loss:.5f}, D Loss: {average_D_loss:.5f}, D(real) Loss: {average_real_loss:.5f}, D(fake) Loss: {average_fake_loss:.5f}")
+        print(f"Real Score: {average_real_score:.2f}, Fake Score: {average_fake_score:.2f}")
+
+        if args.use_hinge_loss:
+            average_real_margin = running_real_margin / len(dataloader)
+            average_fake_margin = running_fake_margin / len(dataloader)
+            print(f"Real Margin: {average_real_margin:.2f}, Fake Margin: {average_fake_margin:.2f}")
 
         if (epoch + 1) % args.save_output_interval == 0:
             print("Saving fake images")
             G.eval()
             with torch.no_grad():
                 fake_images = G(test_noise)
-                grid = torchvision.utils.make_grid(fake_images, nrow=args.nrow, normalize=True)
+                grid = torchvision.utils.make_grid(
+                    fake_images,
+                    nrow=args.nrow,
+                    normalize=True,
+                    value_range=(-1, 1)
+                )
                 torchvision.utils.save_image(
                     grid,
                     os.path.join(output_dir, f"{epoch + 1:0{pad_length}d}.png")
@@ -430,7 +465,12 @@ def main():
     G.eval()
     with torch.no_grad():
         fake_images = G(test_noise)
-        grid = torchvision.utils.make_grid(fake_images, nrow=args.nrow, normalize=True)
+        grid = torchvision.utils.make_grid(
+            fake_images,
+            nrow=args.nrow,
+            normalize=True,
+            value_range=(-1, 1)
+        )
         torchvision.utils.save_image(
             grid,
             os.path.join(output_dir, f"{epoch + 1:0{pad_length}d}.png")
