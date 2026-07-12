@@ -40,6 +40,18 @@ def get_argparser():
         help="Dataset to train on. Must be one of: `afhq-cat`, `afhq-wild`.",
     )
     parser.add_argument(
+        "--generator_in_channels",
+        type=int,
+        nargs="+",
+        help="Input channels for the generator.",
+    )
+    parser.add_argument(
+        "--discriminator_in_channels",
+        type=int,
+        nargs="+",
+        help="Input channels for the discriminator.",
+    )
+    parser.add_argument(
         "--batch_size",
         type=int,
         default=64,
@@ -82,12 +94,6 @@ def get_argparser():
         help="Learning rate for the generator (default: 0.001).",
     )
     parser.add_argument(
-        "--discriminator_lr",
-        type=float,
-        default=0.001,
-        help="Learning rate for the discriminator (default: 0.001).",
-    )
-    parser.add_argument(
         "--generator_adam_beta1",
         type=float,
         default=0.5,
@@ -98,6 +104,12 @@ def get_argparser():
         type=float,
         default=0.999,
         help="Adam beta2 (default: 0.999).",
+    )
+    parser.add_argument(
+        "--discriminator_lr",
+        type=float,
+        default=0.001,
+        help="Learning rate for the discriminator (default: 0.001).",
     )
     parser.add_argument(
         "--discriminator_adam_beta1",
@@ -116,18 +128,6 @@ def get_argparser():
         type=int,
         default=128,
         help="Latent space dimensionality (default: 128).",
-    )
-    parser.add_argument(
-        "--generator_in_channels",
-        type=int,
-        nargs="+",
-        help="Input channels for the generator.",
-    )
-    parser.add_argument(
-        "--discriminator_in_channels",
-        type=int,
-        nargs="+",
-        help="Input channels for the discriminator.",
     )
     parser.add_argument(
         "--use_spectral_norm",
