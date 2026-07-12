@@ -3,11 +3,11 @@ import torch.nn as nn
 
 class Generator(nn.Module):
     def __init__(
-            self,
-            img_size: tuple[int, int, int],
-            in_channels: list[int],
-            latent_dim: int=100
-        ) -> None:
+        self,
+        img_size: tuple[int, int, int],
+        in_channels: list[int],
+        latent_dim: int=100
+    ) -> None:
         super().__init__()
         self.img_size = img_size
         self.in_channels = in_channels

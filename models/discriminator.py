@@ -4,11 +4,11 @@ from torch.nn.utils import spectral_norm
 
 class Discriminator(nn.Module):
     def __init__(
-            self,
-            img_size: tuple[int, int, int],
-            in_channels: list[int],
-            use_spectral_norm: bool=False
-        ) -> None:
+        self,
+        img_size: tuple[int, int, int],
+        in_channels: list[int],
+        use_spectral_norm: bool=False
+    ) -> None:
         super().__init__()
         self.img_size = img_size
         self.in_channels = in_channels
