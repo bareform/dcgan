@@ -31,7 +31,7 @@ random_seed = 0
 
 [evaluation]
 checkpoint_dir = "./checkpoints"
-save_ckpt_interval = 1500
+save_checkpoint_interval = 1500
 
 output_dir = "./output"
 
