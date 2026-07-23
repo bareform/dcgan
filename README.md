@@ -31,26 +31,26 @@ cd dcgan
 To train a low-res `AFHQ Cat` DCGAN:
 
 ```
-python3 -m utils.trainer --config="./configs/afhq_cat.toml"
+python3 -m utils.trainer --config="./configs/afhq-cat.toml"
 ```
 
 After training for 500 epochs, you can find results similiar to gif at `./assets/afhq-cat/afhq-cat_500.gif`.
 
 <img src="assets/afhq-cat/afhq-cat_500.gif" width="300" alt="afhq-cat">
 
-Using the configuration provided at `./configs/afhq_cat.toml`, we achieve a mean FID score of 33.93 with a standard deviation of 0.115 over 10 runs.
+Using the configuration provided at `./configs/afhq-cat.toml`, we achieve a mean FID score of 33.93 with a standard deviation of 0.115 over 10 runs.
 
 To train a low-res `AFHQ Wild` DCGAN:
 
 ```
-python3 -m utils.trainer --config="./configs/afhq_wild.toml"
+python3 -m utils.trainer --config="./configs/afhq-wild.toml"
 ```
 
 After training for 1500 epochs, you can find results similiar to gif at `./assets/afhq-wild/afhq-wild_1500.gif`.
 
 <img src="assets/afhq-wild/afhq-wild_1500.gif" width="300" alt="afhq-wild">
 
-Using the configuration provided at `./configs/afhq_wild.toml`, we achieve a mean FID score of 29.71 with a standard deviation of 0.157 over 10 runs.
+Using the configuration provided at `./configs/afhq-wild.toml`, we achieve a mean FID score of 29.71 with a standard deviation of 0.157 over 10 runs.
 
 You can download the pre-trained models [here](https://huggingface.co/luethan2025/dcgan) and use the provided Jupyter Notebook `inference.ipynb` to generate some samples.
 
