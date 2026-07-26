@@ -492,7 +492,7 @@ def main():
         "G_optimizer": G_optimizer.state_dict(),
         "D_optimizer": D_optimizer.state_dict(),
         "image_height": args.image_height,
-        "image_width": args.image_width
+        "image_width": args.image_width,
     }
     torch.save(checkpoint, os.path.join(checkpoint_dir, f"{args.dataset}_checkpoint_{epoch + 1:0{pad_length}d}.pth"))
     generator = {
